@@ -1,0 +1,219 @@
+definitions:
+  model.ValidateData:
+    properties:
+      data:
+        description: data
+        type: string
+      email:
+        description: email
+        type: string
+      id:
+        description: id
+        type: integer
+      ip:
+        description: ip
+        type: string
+      name:
+        description: 姓名
+        type: string
+    required:
+    - name
+    type: object
+info:
+  contact: {}
+paths:
+  /api/excel/export:
+    get:
+      consumes:
+      - application/json
+      description: 数据导出
+      parameters:
+      - description: 当前第几页，默认1
+        in: query
+        name: cur_page
+        type: integer
+      - description: 一页显示数据量，默认20
+        in: query
+        name: page_size
+        type: integer
+      - description: 导出文件类型(csv,xlxs)
+        in: query
+        name: file_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 文件内容字节流
+          schema:
+            items:
+              type: integer
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                errors:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: 数据导出
+      tags:
+      - Excel操作
+  /api/excel/import:
+    post:
+      consumes:
+      - application/json
+      description: 数据导入
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                msg:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: 数据导入
+      tags:
+      - Excel操作
+  /api/ffmpeg:
+    get:
+      consumes:
+      - multipart/form-data
+      description: FFmpeg api
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                msg:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: FFmpeg api
+      tags:
+      - FFmpeg
+    post:
+      consumes:
+      - multipart/form-data
+      deprecated: true
+      description: 测试swagger弃用接口语法
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                msg:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: 测试swagger弃用接口语法
+      tags:
+      - FFmpeg
+  /api/gjson:
+    get:
+      consumes:
+      - application/json
+      description: GJson使用
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: GJson使用
+      tags:
+      - GJson
+  /api/goquery:
+    get:
+      consumes:
+      - application/json
+      description: GoQuery使用
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: GoQuery使用
+      tags:
+      - GoQuery
+  /api/validate/create:
+    post:
+      consumes:
+      - application/json
+      description: 数据校验
+      parameters:
+      - description: ValidateData object
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.ValidateData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                data:
+                  type: string
+                "no":
+                  type: integer
+              type: object
+      summary: 数据校验
+      tags:
+      - Validate校验
+swagger: "2.0"
